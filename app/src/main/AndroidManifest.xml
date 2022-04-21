@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Forca">
         <activity
+            android:name=".view.JogarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.ConfigurarActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.MainActivity"
             android:exported="true">
             <intent-filter>
