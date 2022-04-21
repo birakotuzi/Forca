@@ -2,13 +2,9 @@ package br.edu.ifsp.scl.sdm.forca.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.ifsp.scl.sdm.forca.R
 import br.edu.ifsp.scl.sdm.forca.databinding.ActivityMainBinding
@@ -20,40 +16,25 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
-    private lateinit var configurarActivityResultLauncher: ActivityResultLauncher<Intent>
-
     companion object{
         const val  DIFICULDADE = "DIFICULDADE"
         const val  RODADAS = "RODADAS"
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(activityMainBinding.root)
-        var dificuldade : Int = 0
-        var rodadas : Int = 0
-
-        configurarActivityResultLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()){ resultado ->
-            if (resultado?.resultCode == RESULT_OK){
-                with(resultado){
-                    data?.getIntExtra(DIFICULDADE, 0).takeIf { it!=null }.let {
-                        dificuldade = it.toString().toInt()
-                    }
-                    data?.getIntExtra(RODADAS, 0).takeIf { it!=null }.let {
-                        rodadas = it.toString().toInt()
-                    }
-                }
-                Toast.makeText(applicationContext, dificuldade.toString(), Toast.LENGTH_LONG).show()
-                Toast.makeText(applicationContext, rodadas.toString(), Toast.LENGTH_LONG).show()
-                if ((dificuldade > 0) && (rodadas > 0)) {
-                    activityMainBinding.titleTv.text = dificuldade.toString()
-                }
-            }
-        }
+        var dificuldade : Int
+        dificuldade = 0
+        var rodadas : Int
+        rodadas = 0
 
         activityMainBinding.configurarBtn.setOnClickListener {
             val linearLayout = activityMainBinding.configurarCamposLl
             linearLayout.visibility = View.VISIBLE
+
+            val cfgButton = activityMainBinding.configurarBtn
+            cfgButton.visibility = View.INVISIBLE
         }
 
         activityMainBinding.dificuldadeRg.setOnCheckedChangeListener { radioGroup, _ ->
@@ -72,21 +53,29 @@ class MainActivity : AppCompatActivity() {
 
         activityMainBinding.jogarBtn.setOnClickListener {
             with(activityMainBinding){
-                rodadas = this.rodadaEt.text.toString().toInt()
+                var rodadasEt = this.rodadaEt.text.toString()
+                if (!rodadasEt.isNullOrEmpty()) {
+                    rodadas = rodadasEt.toInt()
+                }
 
-                val intent = Intent(applicationContext,JogarActivity::class.java)
-                intent.putExtra(DIFICULDADE, dificuldade)
-                intent.putExtra(RODADAS, rodadas)
-                startActivity(intent)
-                /*if ((rodadas == 0) && (dificuldade == 0)) {
-                    android.widget.Toast.makeText(applicationContext, "Informe a Dificuldade e a Quantidade de Rodadas do Jogo.", android.widget.Toast.LENGTH_SHORT).show()
-                } else if ((rodadas == 0) && (dificuldade > 0)) {
-                    android.widget.Toast.makeText(applicationContext, "Informe a Quantidade de Rodadas do Jogo.", android.widget.Toast.LENGTH_SHORT).show()
-                } else if ((rodadas > 0) && (dificuldade == 0)) {
-                    android.widget.Toast.makeText(applicationContext, "Informe a Dificuldade do Jogo.", android.widget.Toast.LENGTH_SHORT).show()
-                } else { // rodadas > 0 && dificuldade > 0
-
-                }*/
+                if (dificuldade == 0 && rodadas == 0) {
+                    Toast.makeText(applicationContext, "Informe a Dificuldade e a Quantidade de Rodadas do Jogo.", Toast.LENGTH_LONG).show()
+                }
+                else if (dificuldade > 0 && rodadas == 0) {
+                    Toast.makeText(applicationContext, "Informe a Quantidade de Rodadas do Jogo.", Toast.LENGTH_LONG).show()
+                }
+                else if (dificuldade == 0 && rodadas > 0) {
+                    Toast.makeText(applicationContext, "Informe a Dificuldade do Jogo.", Toast.LENGTH_LONG).show()
+                }
+                else if (dificuldade >= 0 && rodadas > 15) {
+                    Toast.makeText(applicationContext, "Quantidade de Rodadas deve ser de 1 a 15.", Toast.LENGTH_LONG).show()
+                }
+                else {
+                    val intent = Intent(applicationContext,JogarActivity::class.java)
+                    intent.putExtra(DIFICULDADE, dificuldade)
+                    intent.putExtra(RODADAS, rodadas)
+                    startActivity(intent)
+                }
             }
         }
 

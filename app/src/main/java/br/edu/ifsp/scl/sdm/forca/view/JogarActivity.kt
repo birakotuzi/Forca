@@ -20,6 +20,6 @@ class JogarActivity : AppCompatActivity() {
         dificuldade = this.intent.getSerializableExtra(DIFICULDADE) as Int
         rodadas = this.intent.getSerializableExtra(RODADAS) as Int
 
-        android.widget.Toast.makeText(applicationContext, "Rodada "+ rodadas + ", Dificuldade " +  dificuldade , android.widget.Toast.LENGTH_SHORT).show()
+        android.widget.Toast.makeText(applicationContext, "Rodada "+ rodadas + ", Dificuldade " +  dificuldade , android.widget.Toast.LENGTH_LONG).show()
     }
 }
