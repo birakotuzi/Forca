@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.edu.ifsp.scl.sdm.forca">
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,9 +11,6 @@
         android:theme="@style/Theme.Forca">
         <activity
             android:name=".view.JogarActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.ConfigurarActivity"
             android:exported="false" />
         <activity
             android:name=".view.MainActivity"
