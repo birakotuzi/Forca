@@ -48,10 +48,30 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
         <TextView
+            android:id="@+id/palavrasCertasTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Acertou: "
+            android:textAlignment="center"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
             android:id="@+id/totalErrosTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=""
+            android:textAlignment="center"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/palavrasErradasTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Errou: "
             android:textAlignment="center"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -139,6 +159,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/palavraTv" />
 
+    <TextView
+        android:id="@+id/totalRodadasTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="26sp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/letrasTv" />
+
     <LinearLayout
         android:id="@+id/tecladoLayout"
         android:layout_width="match_parent"
@@ -147,7 +178,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/palavraTv">
+        app:layout_constraintTop_toBottomOf="@+id/totalRodadasTv">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -157,9 +188,9 @@
 
             <Button
                 android:id="@+id/letraABtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="A"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/letraBBtn"
@@ -167,9 +198,9 @@
 
             <Button
                 android:id="@+id/letraBBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="B"
                 app:layout_constraintLeft_toRightOf="@id/letraABtn"
                 app:layout_constraintRight_toLeftOf="@id/letraCBtn"
@@ -177,9 +208,9 @@
 
             <Button
                 android:id="@+id/letraCBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="C"
                 app:layout_constraintLeft_toRightOf="@id/letraBBtn"
                 app:layout_constraintRight_toLeftOf="@id/letraDBtn"
@@ -187,9 +218,9 @@
 
             <Button
                 android:id="@+id/letraDBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="D"
                 app:layout_constraintLeft_toRightOf="@id/letraCBtn"
                 app:layout_constraintRight_toLeftOf="@id/letraEBtn"
@@ -197,9 +228,9 @@
 
             <Button
                 android:id="@+id/letraEBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="E"
                 app:layout_constraintLeft_toRightOf="@id/letraDBtn"
                 app:layout_constraintRight_toLeftOf="@id/letraFBtn"
@@ -207,9 +238,9 @@
 
             <Button
                 android:id="@+id/letraFBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="F"
                 app:layout_constraintLeft_toRightOf="@id/letraEBtn"
                 app:layout_constraintRight_toLeftOf="@id/letraGBtn"
@@ -217,9 +248,9 @@
 
             <Button
                 android:id="@+id/letraGBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="G"
                 app:layout_constraintLeft_toRightOf="@id/letraFBtn"
                 app:layout_constraintRight_toRightOf="parent"
@@ -234,9 +265,9 @@
 
             <Button
                 android:id="@+id/letraHBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="H"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/letraIBtn"
@@ -244,9 +275,9 @@
 
             <Button
                 android:id="@+id/letraIBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="I"
                 app:layout_constraintLeft_toRightOf="@id/letraHBtn"
                 app:layout_constraintRight_toLeftOf="@id/letraJBtn"
@@ -254,9 +285,9 @@
 
             <Button
                 android:id="@+id/letraJBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="J"
                 app:layout_constraintLeft_toRightOf="@id/letraIBtn"
                 app:layout_constraintRight_toLeftOf="@id/letraKBtn"
@@ -264,9 +295,9 @@
 
             <Button
                 android:id="@+id/letraKBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="K"
                 app:layout_constraintLeft_toRightOf="@id/letraJBtn"
                 app:layout_constraintRight_toLeftOf="@id/letraLBtn"
@@ -274,9 +305,9 @@
 
             <Button
                 android:id="@+id/letraLBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="L"
                 app:layout_constraintLeft_toRightOf="@id/letraKBtn"
                 app:layout_constraintRight_toLeftOf="@id/letraMBtn"
@@ -284,9 +315,9 @@
 
             <Button
                 android:id="@+id/letraMBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="M"
                 app:layout_constraintLeft_toRightOf="@id/letraLBtn"
                 app:layout_constraintRight_toLeftOf="@id/letraNBtn"
@@ -294,9 +325,9 @@
 
             <Button
                 android:id="@+id/letraNBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="N"
                 app:layout_constraintLeft_toRightOf="@id/letraMBtn"
                 app:layout_constraintRight_toRightOf="parent"
@@ -311,9 +342,9 @@
 
             <Button
                 android:id="@+id/letraOBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="O"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/letraPBtn"
@@ -321,9 +352,9 @@
 
             <Button
                 android:id="@+id/letraPBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="P"
                 app:layout_constraintLeft_toRightOf="@id/letraOBtn"
                 app:layout_constraintRight_toLeftOf="@id/letraQBtn"
@@ -331,9 +362,9 @@
 
             <Button
                 android:id="@+id/letraQBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="Q"
                 app:layout_constraintLeft_toRightOf="@id/letraPBtn"
                 app:layout_constraintRight_toLeftOf="@id/letraRBtn"
@@ -341,9 +372,9 @@
 
             <Button
                 android:id="@+id/letraRBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="R"
                 app:layout_constraintLeft_toRightOf="@id/letraQBtn"
                 app:layout_constraintRight_toLeftOf="@id/letraSBtn"
@@ -351,9 +382,9 @@
 
             <Button
                 android:id="@+id/letraSBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="S"
                 app:layout_constraintLeft_toRightOf="@id/letraRBtn"
                 app:layout_constraintRight_toLeftOf="@id/letraTBtn"
@@ -361,9 +392,9 @@
 
             <Button
                 android:id="@+id/letraTBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="T"
                 app:layout_constraintLeft_toRightOf="@id/letraSBtn"
                 app:layout_constraintRight_toLeftOf="@id/letraUBtn"
@@ -371,9 +402,9 @@
 
             <Button
                 android:id="@+id/letraUBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="U"
                 app:layout_constraintLeft_toRightOf="@id/letraTBtn"
                 app:layout_constraintRight_toRightOf="parent"
@@ -383,14 +414,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
+            android:layout_marginLeft="56dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/letraVBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="V"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/letraWBtn"
@@ -398,9 +429,9 @@
 
             <Button
                 android:id="@+id/letraWBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="W"
                 app:layout_constraintLeft_toRightOf="@id/letraVBtn"
                 app:layout_constraintRight_toLeftOf="@id/letraXBtn"
@@ -408,9 +439,9 @@
 
             <Button
                 android:id="@+id/letraXBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="X"
                 app:layout_constraintLeft_toRightOf="@id/letraWBtn"
                 app:layout_constraintRight_toLeftOf="@id/letraYBtn"
@@ -418,9 +449,9 @@
 
             <Button
                 android:id="@+id/letraYBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="Y"
                 app:layout_constraintLeft_toRightOf="@id/letraXBtn"
                 app:layout_constraintRight_toLeftOf="@id/letraZBtn"
@@ -428,9 +459,9 @@
 
             <Button
                 android:id="@+id/letraZBtn"
-                android:layout_width="50dp"
+                android:layout_width="48dp"
                 android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_margin="3dp"
                 android:text="Z"
                 app:layout_constraintLeft_toRightOf="@id/letraYBtn"
                 app:layout_constraintTop_toTopOf="parent" />

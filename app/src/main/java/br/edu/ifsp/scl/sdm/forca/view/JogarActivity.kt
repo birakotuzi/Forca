@@ -9,6 +9,7 @@ import br.edu.ifsp.scl.sdm.forca.R
 import br.edu.ifsp.scl.sdm.forca.databinding.ActivityJogarBinding
 import br.edu.ifsp.scl.sdm.forca.viewmodel.ForcaViewModel
 import java.text.Normalizer
+import java.util.regex.Pattern
 
 class JogarActivity : AppCompatActivity() {
 
@@ -25,11 +26,11 @@ class JogarActivity : AppCompatActivity() {
 
     private var letrasSelecionadas : String = ""
     private var rodada : Int = 0
+    private var rodadaRelatorio : Int = 0
     private var palavraAtual : String = ""
 
     private var acertosRodada : Int = 0
     private var errosRodada : Int = 0
-
 
     private var totalAcertos : Int = 0
     private var totalErros : Int = 0
@@ -84,6 +85,8 @@ class JogarActivity : AppCompatActivity() {
                 }
             }
         }
+        rodadaRelatorio = rodada + 1
+        activityJogarBinding.totalRodadasTv.text = "Rodada " + rodadaRelatorio + " de " + rodadas + " rodadas"
     }
 
     fun selecionarLetraTeclado() {
@@ -128,11 +131,9 @@ class JogarActivity : AppCompatActivity() {
 
     fun comparaLetraPalavra(letra: String){
         if(palavraAtual.contains(letra.uppercase())) {
-            //Toast.makeText(this, "Letra correta", Toast.LENGTH_SHORT).show()
         } else {
             errosRodada++
             mostrarParteCorpo(errosRodada)
-            //Toast.makeText(this, "Letra incorreta", Toast.LENGTH_SHORT).show()
         }
 
         for(i in 0 until palavraAtual.length) {
@@ -141,14 +142,18 @@ class JogarActivity : AppCompatActivity() {
             }
         }
 
-        //Toast.makeText(this, "Acertos: " + acertosRodada + ", Erros: " + errosRodada, Toast.LENGTH_SHORT).show()
-
         if (acertosRodada == palavraAtual.length){
             totalAcertos++
+            val sb = StringBuilder()
+            sb.append(activityJogarBinding.palavrasCertasTv.text).append(" " + palavraAtual)
+            activityJogarBinding.palavrasCertasTv.text = sb.toString()
             Toast.makeText(this, "VOCÊ GANHOU! ", Toast.LENGTH_SHORT).show()
             reiniciarRodada()
         }
         if (errosRodada == 6){
+            val sb = StringBuilder()
+            sb.append(activityJogarBinding.palavrasErradasTv.text).append(" " + palavraAtual)
+            activityJogarBinding.palavrasErradasTv.text = sb.toString()
             totalErros++
             Toast.makeText(this, "VOCÊ PERDEU! ", Toast.LENGTH_SHORT).show()
             reiniciarRodada()
@@ -169,7 +174,6 @@ class JogarActivity : AppCompatActivity() {
         } else if (erro == 6 ) {
             activityJogarBinding.pernaDireitaTv.visibility = View.VISIBLE
         }
-
     }
 
     fun esconderParteCorpo(){
@@ -197,8 +201,8 @@ class JogarActivity : AppCompatActivity() {
             rodada++
             carregarDadosForca()
         } else {
-
             with(activityJogarBinding) {
+                totalRodadasTv.text = ""
                 jogoForcaTv.text = "RELATÓRIO FINAL"
                 tecladoLayout.visibility = View.GONE
                 relatorioLayout.visibility = View.VISIBLE
@@ -212,7 +216,9 @@ class JogarActivity : AppCompatActivity() {
     }
 
     fun tratarCaracteres(str: String?): String? {
-        return Normalizer.normalize(str, Normalizer.Form.NFD).replace("[^\\p{ASCII}]", "").uppercase()
+        val nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD)
+        val pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+")
+        return pattern.matcher(nfdNormalizedString).replaceAll("").uppercase()
     }
 
     fun desabilitarLetra(letra: String) {
