@@ -74,9 +74,11 @@ class ForcaViewModel(application: Application): AndroidViewModel(application)  {
     }
 
     fun getPalavra(id: Int){
+        //Log.i("getPalavra: ", " idPalavra: " + id.toString())
         escopoCorrotinas.launch {
             forcaApi.retrievePalavra(id).enqueue(object: Callback<ArrayList<Palavra>> {
                 override fun onResponse(call: Call<ArrayList<Palavra>>, response: Response<ArrayList<Palavra>>) {
+                    Log.i("ID: " + id.toString(), "PALAVRA: " + response.body().toString())
                     palavraMld.postValue(response.body())
                     //Log.e("erroPalavra", response.body()?.toMutableList().toString())
                 }

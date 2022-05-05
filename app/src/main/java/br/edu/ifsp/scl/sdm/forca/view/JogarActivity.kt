@@ -35,6 +35,8 @@ class JogarActivity : AppCompatActivity() {
     private var totalAcertos : Int = 0
     private var totalErros : Int = 0
 
+    private var palavraSemTratamento : String = ""
+
     private lateinit var forcaViewModel: ForcaViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,17 +60,18 @@ class JogarActivity : AppCompatActivity() {
 
         selecionarLetraTeclado()
 
-        carregarDadosForca()
+        if (rodada == 0) {
+            forcaViewModel.getIdentificadoresDificuldade(dificuldade)
+
+            forcaViewModel.identificadoresPalavrasDificuldade.observe(this){
+                forcaViewModel.getIdentificadorPalavra(rodadas)
+            }
+            carregarDadosForca()
+        }
 
     }
 
     fun carregarDadosForca(){
-
-        forcaViewModel.getIdentificadoresDificuldade(dificuldade)
-
-        forcaViewModel.identificadoresPalavrasDificuldade.observe(this){
-            forcaViewModel.getIdentificadorPalavra(rodadas)
-        }
 
         forcaViewModel.idPalavraLista.observe(this){
             if (palavraAtual == ""){
@@ -76,10 +79,10 @@ class JogarActivity : AppCompatActivity() {
             }
         }
 
-
         forcaViewModel.palavraMld.observe(this){ lista ->
             lista.forEach { palavra ->
                 palavra.palavra.also { palavra ->
+                    palavraSemTratamento = palavra
                     palavraAtual = tratarCaracteres(palavra).toString()
                     activityJogarBinding.palavraTv.text = palavraAtual
                 }
@@ -145,14 +148,14 @@ class JogarActivity : AppCompatActivity() {
         if (acertosRodada == palavraAtual.length){
             totalAcertos++
             val sb = StringBuilder()
-            sb.append(activityJogarBinding.palavrasCertasTv.text).append(" " + palavraAtual)
+            sb.append(activityJogarBinding.palavrasCertasTv.text).append(" " + palavraSemTratamento)
             activityJogarBinding.palavrasCertasTv.text = sb.toString()
             Toast.makeText(this, "VOCÊ GANHOU! ", Toast.LENGTH_SHORT).show()
             reiniciarRodada()
         }
         if (errosRodada == 6){
             val sb = StringBuilder()
-            sb.append(activityJogarBinding.palavrasErradasTv.text).append(" " + palavraAtual)
+            sb.append(activityJogarBinding.palavrasErradasTv.text).append(" " + palavraSemTratamento)
             activityJogarBinding.palavrasErradasTv.text = sb.toString()
             totalErros++
             Toast.makeText(this, "VOCÊ PERDEU! ", Toast.LENGTH_SHORT).show()
@@ -191,6 +194,7 @@ class JogarActivity : AppCompatActivity() {
     fun reiniciarRodada(){
         letrasSelecionadas = ""
         palavraAtual = ""
+        palavraSemTratamento = ""
         activityJogarBinding.palavraTv.text = palavraAtual
         activityJogarBinding.letrasTv.text = letrasSelecionadas
         esconderParteCorpo()
@@ -210,9 +214,7 @@ class JogarActivity : AppCompatActivity() {
                 totalAcertosTv.text = "Total de Acertos: " + totalAcertos
                 totalErrosTv.text = "Total de Erros: " + totalErros
             }
-
         }
-
     }
 
     fun tratarCaracteres(str: String?): String? {
