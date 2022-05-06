@@ -1,5 +1,6 @@
 package br.edu.ifsp.scl.sdm.forca.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -71,6 +72,14 @@ class JogarActivity : AppCompatActivity() {
                 forcaViewModel.getIdentificadorPalavra(rodadas)
             }
             carregarDadosForca()
+        }
+
+
+        activityJogarBinding.jogarNovamenteBtn.setOnClickListener {
+            with(activityJogarBinding){
+                    val intent = Intent(applicationContext, MainActivity::class.java)
+                    startActivity(intent)
+            }
         }
 
     }
