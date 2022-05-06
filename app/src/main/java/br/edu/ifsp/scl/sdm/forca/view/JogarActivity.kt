@@ -24,7 +24,9 @@ class JogarActivity : AppCompatActivity() {
     private var dificuldade : Int = 0
     private var rodadas : Int = 0
 
-    private var letrasSelecionadas : String = ""
+    private var letrasSelecionadas : String = "Letras: "
+    private var letrasCertas : String = "Acertou: "
+    private var letrasErradas : String = "Errou: "
     private var rodada : Int = 0
     private var rodadaRelatorio : Int = 0
     private var palavraAtual : String = ""
@@ -36,6 +38,8 @@ class JogarActivity : AppCompatActivity() {
     private var totalErros : Int = 0
 
     private var palavraSemTratamento : String = ""
+
+    private var mascaraMap = mutableMapOf<Int, String>()
 
     private lateinit var forcaViewModel: ForcaViewModel
 
@@ -57,7 +61,7 @@ class JogarActivity : AppCompatActivity() {
         forcaViewModel = ViewModelProvider
             .AndroidViewModelFactory(this.application)
             .create(ForcaViewModel::class.java)
-
+        resetTeclado(false)
         selecionarLetraTeclado()
 
         if (rodada == 0) {
@@ -85,11 +89,22 @@ class JogarActivity : AppCompatActivity() {
                     palavraSemTratamento = palavra
                     palavraAtual = tratarCaracteres(palavra).toString()
                     activityJogarBinding.palavraTv.text = palavraAtual
+                    mascaraPalavra(palavraAtual)
                 }
             }
         }
+        resetTeclado(true)
         rodadaRelatorio = rodada + 1
         activityJogarBinding.totalRodadasTv.text = "Rodada " + rodadaRelatorio + " de " + rodadas + " rodadas"
+    }
+
+    fun mascaraPalavra(palavra: String){
+        var mascara = ""
+        for(i in 0 until palavra.length) {
+            mascara = mascara + "-"
+            mascaraMap[i] = "-"
+        }
+        activityJogarBinding.palavraTv.text = mascara
     }
 
     fun selecionarLetraTeclado() {
@@ -134,7 +149,11 @@ class JogarActivity : AppCompatActivity() {
 
     fun comparaLetraPalavra(letra: String){
         if(palavraAtual.contains(letra.uppercase())) {
+            letrasCertas = letrasCertas + " " + letra
+            activityJogarBinding.letrasCertasTv.text = letrasCertas
         } else {
+            letrasErradas = letrasErradas + " " + letra
+            activityJogarBinding.letrasErradasTv.text = letrasErradas
             errosRodada++
             mostrarParteCorpo(errosRodada)
         }
@@ -142,6 +161,7 @@ class JogarActivity : AppCompatActivity() {
         for(i in 0 until palavraAtual.length) {
             if(palavraAtual[i].toString().uppercase() == letra) {
                 acertosRodada++
+                retiraMascaraPalavra(i, letra)
             }
         }
 
@@ -161,6 +181,15 @@ class JogarActivity : AppCompatActivity() {
             Toast.makeText(this, "VOCÊ PERDEU! ", Toast.LENGTH_SHORT).show()
             reiniciarRodada()
         }
+    }
+
+    fun retiraMascaraPalavra(posicao: Int, letra: String){
+        mascaraMap[posicao] = letra
+        var palavraMascara = ""
+        for ((k, v) in mascaraMap) {
+            palavraMascara = palavraMascara + "$v"
+        }
+        activityJogarBinding.palavraTv.text = palavraMascara
     }
 
     fun mostrarParteCorpo(erro: Int){
@@ -192,22 +221,30 @@ class JogarActivity : AppCompatActivity() {
 
 
     fun reiniciarRodada(){
-        letrasSelecionadas = ""
+        letrasSelecionadas = "Letras: "
+        letrasCertas = "Acertou: "
+        letrasErradas = "Errou: "
         palavraAtual = ""
         palavraSemTratamento = ""
         activityJogarBinding.palavraTv.text = palavraAtual
         activityJogarBinding.letrasTv.text = letrasSelecionadas
+        activityJogarBinding.letrasCertasTv.text = letrasCertas
+        activityJogarBinding.letrasErradasTv.text = letrasErradas
         esconderParteCorpo()
+        mascaraMap.clear()
         if (rodada < rodadas - 1) {
             acertosRodada = 0
             errosRodada = 0
-            resetTeclado()
+            resetTeclado(true)
             rodada++
             carregarDadosForca()
         } else {
             with(activityJogarBinding) {
                 totalRodadasTv.text = ""
                 jogoForcaTv.text = "RELATÓRIO FINAL"
+                letrasTv.visibility = View.GONE
+                letrasCertasTv.visibility = View.GONE
+                letrasErradasTv.visibility = View.GONE
                 tecladoLayout.visibility = View.GONE
                 relatorioLayout.visibility = View.VISIBLE
                 totalPalavrasTv.text = "Total de Palavras: " + rodadas
@@ -256,34 +293,34 @@ class JogarActivity : AppCompatActivity() {
         }
     }
 
-    fun resetTeclado() {
+    fun resetTeclado(parametro: Boolean) {
         with(activityJogarBinding) {
-            letraABtn.isEnabled = true
-            letraBBtn.isEnabled = true
-            letraCBtn.isEnabled = true
-            letraDBtn.isEnabled = true
-            letraEBtn.isEnabled = true
-            letraFBtn.isEnabled = true
-            letraGBtn.isEnabled = true
-            letraHBtn.isEnabled = true
-            letraIBtn.isEnabled = true
-            letraJBtn.isEnabled = true
-            letraKBtn.isEnabled = true
-            letraLBtn.isEnabled = true
-            letraMBtn.isEnabled = true
-            letraNBtn.isEnabled = true
-            letraOBtn.isEnabled = true
-            letraPBtn.isEnabled = true
-            letraQBtn.isEnabled = true
-            letraRBtn.isEnabled = true
-            letraSBtn.isEnabled = true
-            letraTBtn.isEnabled = true
-            letraUBtn.isEnabled = true
-            letraVBtn.isEnabled = true
-            letraWBtn.isEnabled = true
-            letraXBtn.isEnabled = true
-            letraYBtn.isEnabled = true
-            letraZBtn.isEnabled = true
+            letraABtn.isEnabled = parametro
+            letraBBtn.isEnabled = parametro
+            letraCBtn.isEnabled = parametro
+            letraDBtn.isEnabled = parametro
+            letraEBtn.isEnabled = parametro
+            letraFBtn.isEnabled = parametro
+            letraGBtn.isEnabled = parametro
+            letraHBtn.isEnabled = parametro
+            letraIBtn.isEnabled = parametro
+            letraJBtn.isEnabled = parametro
+            letraKBtn.isEnabled = parametro
+            letraLBtn.isEnabled = parametro
+            letraMBtn.isEnabled = parametro
+            letraNBtn.isEnabled = parametro
+            letraOBtn.isEnabled = parametro
+            letraPBtn.isEnabled = parametro
+            letraQBtn.isEnabled = parametro
+            letraRBtn.isEnabled = parametro
+            letraSBtn.isEnabled = parametro
+            letraTBtn.isEnabled = parametro
+            letraUBtn.isEnabled = parametro
+            letraVBtn.isEnabled = parametro
+            letraWBtn.isEnabled = parametro
+            letraXBtn.isEnabled = parametro
+            letraYBtn.isEnabled = parametro
+            letraZBtn.isEnabled = parametro
         }
     }
 }
